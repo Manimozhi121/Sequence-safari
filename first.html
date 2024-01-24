@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Snake Game/Home Page</title>
+</head>
+<body>
+    <div class="wrap">
+    <div class="Game Details">
+        <p>WELCOME TO SEQUENCE SAFARI!!</p>
+        <p> ENTER THE GRID SIZE AND PRESS PLAY TO START PLAYING!!!</p>
+    </div>
+    <div class="user-inputs">
+        <label>GRID-SIZE: </label>
+        <input type="number" class="grid-size" height="30px">
+    </div>
+    <div class="User Inputs">
+        <button id="play-btn">PLAY</button>
+    </div>
+    </div>
+    <script>
+        // Get the button element
+        var playBtn = document.getElementById('play-btn');
+    
+        // Add a click event listener to the button
+        playBtn.addEventListener('click', function() {
+          // Redirect to the next page
+          window.location.href = 'index.html'; // Replace 'next_page.html' with your desired page URL
+        });
+      </script>
+      </body>
+      </html>

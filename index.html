@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Snake Game</title>
+    <title>Snake Game/ Game page</title>
 </head>
 <body>
     
     <div class="wrap">
+        <input type="text" id="myInput" onkeydown="startGame(event)">;
         <div class="gamedetails">
         <span class="score">Score=0</span>
         <span class="time">Time left: 30s</span>
@@ -35,14 +36,14 @@
         </div>
         <p class="round">Round:1</p>
 
-        <!--<div class="lives">
+        <div class="lives">
             <p class="Lives">LIVES:</p>
             <div class="LIVES">
                 <p class="l1">&hearts;</p>
                 <p class="l2">&hearts;</p>
                 <p class="l3">&hearts;</p>
             </div>
-            </div>-->  
-         </div>
+        </div>  
+    </div>    
 </body>
 </html>

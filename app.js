@@ -11,6 +11,7 @@ const round=document.querySelector('.round');
 const l1=document.querySelector('.l1');
 const l2=document.querySelector('.l2');
 const l3=document.querySelector('.l3');
+
 let gameover=false;
 let foodX=[],foodY=[];
 let snakeX=5, snakeY=10;
@@ -19,8 +20,7 @@ let velocityX=0, velocityY=0;
 let setIntervelId;
 let score=0;
 let timeleft=30;
-//see if j logic works
-let f_n=0,a=false;
+let f_n=0;
 let r=1;
 let _score=0;
 let lives=3;
@@ -30,46 +30,19 @@ highscoreElement.innerText=`Highest Score=${highscore}`;
 round.innerHTML=`Round:${r}`;
 
 function playgameOverSound() {
-  // Create an audio element
   var gameOverSound = new Audio("wrong-answer-sound-effect.mp3");
-
-  // Play the sound
   gameOverSound.play();
 }
 
-
-const handlegameover=()=>{
-  playgameOverSound();
-  alert("Game Over!!! Press ok to replay");
-    //clears time and reloads the page
-    clearInterval(setIntervelId);
-   location.reload();
-    shuffle(color);
-  
+function arrangefoodposition(){
+    for(let i=0;i<3;i++){     
+    foodX[i]=Math.floor(Math.random()*25)+1;
+    foodY[i]=Math.floor(Math.random()*25)+1;
+    } 
+ 
 }
 
-function playEatSound() {
-  // Create an audio element
-  var eatSound = new Audio("discord-notification.mp3");
-
-  // Play the sound
-  eatSound.play();
-}
-
-
-const handleroundcompletion=()=>{
-alert("Press ok to continue to next round");
-score+=10;
-_score=score;
-r++;
-round.innerHTML=`Round:${r}`;
-timeleft=30;
-shuffle(color);
-f_n=0;
-arrangefoodposition();
-}
-
-const shuffle=(color)=>{
+function shuffle(color){
     for(let i=color.length-1;i>0;i--){
        const j=Math.floor(Math.random()*(i+1));
        const temp=color[i].slice();
@@ -78,68 +51,9 @@ const shuffle=(color)=>{
     }
 }
 
-const initgame= () => {
-let htmlMarkup=`<div class="food1" style="grid-area: ${foodY[0]} / ${foodX[0]};background-color:#${color[0]};"></div>`;
-htmlMarkup+=`<div class="food2" style="grid-area: ${foodY[1]} / ${foodX[1]};background-color:#${color[1]};"></div>`;
-htmlMarkup+=`<div class="food3" style="grid-area: ${foodY[2]} / ${foodX[2]};background-color:#${color[2]};"></div>`;
-
-let htmlmarkup=`<div class="Food1" style="background-color:#${color[0]};"></div>`;
-htmlmarkup+=`<div class="Food2" style="background-color:#${color[1]};"></div>`;
-htmlmarkup+=`<div class="Food3" style="background-color:#${color[2]};"></div>`;
-
-//checking if snake hit food
-    if (snakeX===foodX[f_n]&&snakeY===foodY[f_n])
-     {a=true; playEatSound(); }
-    if(a){
-        //changefoodposition();
-        snakeBody.push([foodX[f_n],foodY[f_n]]);//pushing food into snake
-        if (f_n==0) {delete foodX[0]; delete foodY[0];}
-        if (f_n==1) {delete foodX[1]; delete foodY[1];}
-        if (f_n==2) {delete foodX[2]; delete foodY[2];}
-        f_n++;
-        a=false;
-        score++;
-        if(score==(_score+3)) handleroundcompletion();
-        highscore=score>=highscore?score:highscore ;
-        localStorage.setItem("high-score",highscore);
-        scoreElement.innerText=`Score=${score}`;
-        highscoreElement.innerText=`Highest Score=${highscore}`;
-    }
-
-    for(let i=snakeBody.length-1;i>0;i--){
-        //shifting the array elements by one----????
-        snakeBody[i]=snakeBody[i-1];
-    }
-
-    //initialising the snakebody with its current head position
-    snakeBody[0]=[snakeX,snakeY];
-
-    //updating the position of snake
-    snakeX+=velocityX;
-    snakeY+=velocityY;
-
-    
-
-    for (let i=0;i<snakeBody.length;i++){
-        htmlMarkup+=`<div class="shead" style="grid-area: ${snakeBody[i][1]} / ${snakeBody[i][0]}"></div>`;
-        if (i!=0 && snakeBody[0][1]===snakeBody[i][1] && snakeBody[0][0]===snakeBody[i][0]){
-           /* lives--;
-         if(lives==2) l1.style.color='rgb(64, 97, 127)';
-         if(lives==1) l2.style.color='rgb(64, 97, 127)';
-         if(lives==0) l3.style.color='rgb(64, 97, 127)';
-        if (lives==-1){return handlegameover();}*/
-         handlegameover();
-        }
-    }
-    
-    // checking if snake is out of wall
-    if(snakeX < 0 || snakeX > 26 || snakeY < 0 || snakeY > 26){
-       handlegameover();
-  
-  }
-  
-    gameboard.innerHTML=htmlMarkup;
-    boxwrapper.innerHTML=htmlmarkup;
+function playEatSound() {
+    var eatSound = new Audio("discord-notification.mp3");
+    eatSound.play();
 }
 
 const changeDirection= (e) => {
@@ -167,19 +81,106 @@ controlElement.forEach(key => {
     addEventListener("click",()=>changeDirection({key:key.dataset.key}));
 })
 
-const arrangefoodposition=() => {
-for(let i=0;i<3;i++){     
-foodX[i]=Math.floor(Math.random()*25)+1;
-foodY[i]=Math.floor(Math.random()*25)+1;
-} 
+function checkLives(){
+    lives--;
+    if(lives==-1) {return handlegameover();}
+    if(lives==2) l1.style.color='rgb(64, 97, 127)';
+    if(lives==1) l2.style.color='rgb(64, 97, 127)';
+    if(lives==0) l3.style.color='rgb(64, 97, 127)';
+    handlelifeCompletion();
+}
+
+function handlelifeCompletion(){
+    alert("One life over");
+    foodX=[],foodY=[]; snakeX=5, snakeY=10; snakeBody=[];
+    velocityX=0, velocityY=0;
+    score=0; timeleft=30; f_n=0; r=1; _score=0;
+    round.innerHTML=`Round:${r}`;
+    scoreElement.innerText=`Score=${score}`;
+    timer.innerHTML=`Time left: ${timeleft}s`;
+    shuffle(color); arrangefoodposition();
+    initgame();
+}
+  
+function handlegameover(){
+    playgameOverSound();
+    alert("Game Over!!! Press ok to replay");
+    //clears time and reloads the page-----------------------------------------
+    clearInterval(setIntervelId);
+    location.reload();
+    shuffle(color);
+    startGame(e);
+}
+
+function handleroundcompletion(){
+   alert("Press ok to continue to next round");
+   score+=10; _score=score; r++; timeleft=30; f_n=0;
+   round.innerHTML=`Round:${r}`;
+   shuffle(color); arrangefoodposition();
+}
+
+function handleEat(){
+    //changefoodposition();
+    snakeBody.push([foodX[f_n],foodY[f_n]]);//pushing food into snake
+    if (f_n>=0 && f_n<3) {delete foodX[f_n]; delete foodY[f_n];}
+    f_n++;
+    score++;
+    highscore=score>=highscore?score:highscore ;
+    localStorage.setItem("high-score",highscore);
+    scoreElement.innerText=`Score=${score}`;
+    highscoreElement.innerText=`Highest Score=${highscore}`;
+}
+
+function initgame(){
+let htmlMarkup=``;
+let htmlmarkup=``;
+for(let i=0;i<3;i++){
+    htmlMarkup+=`<div class="food${i+1}" style="grid-area: ${foodY[i]} / ${foodX[i]};background-color:#${color[i]};"></div>`;
+}
+for(let i=0;i<3;i++){
+    htmlmarkup+=`<div class="Food${i+1}" style="background-color:#${color[i]};"></div>`;
+}
+
+//checking if snake hit food
+    if (snakeX===foodX[f_n]&&snakeY===foodY[f_n]){
+        playEatSound(); handleEat(); 
+    }
+
+    for(let i=snakeBody.length-1;i>0;i--){
+        //shifting the array elements by one----????
+        snakeBody[i]=snakeBody[i-1];
+    }
+
+    //initialising the snakebody with its current head position
+    snakeBody[0]=[snakeX,snakeY];
+
+    //updating the position of snake
+    snakeX+=velocityX;
+    snakeY+=velocityY;
+
+    
+
+    for (let i=0;i<snakeBody.length;i++){
+        htmlMarkup+=`<div class="shead" style="grid-area: ${snakeBody[i][1]} / ${snakeBody[i][0]}"></div>`;
+    }
+    
+    gameboard.innerHTML=htmlMarkup;
+    boxwrapper.innerHTML=htmlmarkup;
+    //ROUND COMPLETION CONDITIONS
+    if(score==(_score+3)) handleroundcompletion();
+    //GAMEOVER CONDITIONS
+    for(let i=0;i<snakeBody.length;i++){
+        if (i!=0 && snakeY===snakeBody[i][1] && snakeX===snakeBody[i][0]){
+            checkLives();
+        }
+    }
+    if(snakeX < 0 || snakeX > 26 || snakeY < 0 || snakeY > 26){
+       checkLives();
+    }
 
 }
 
-
-var time = setInterval(myTimer, 1000);
-
 function myTimer() {
-    
     timeleft--;
     if (timeleft == -1) {
         clearInterval(time);
@@ -189,7 +190,13 @@ function myTimer() {
     timer.innerHTML=`Time left: ${timeleft}s`;
 }
 
+var time = setInterval(myTimer, 1000);
 
-arrangefoodposition();
-setIntervelId=setInterval(initgame,175);
-document.addEventListener("keydown",changeDirection);
+function startGame(e){
+    if(e.keyCode===9){
+        e.preventDefault();
+        shuffle(); arrangefoodposition();
+        setIntervelId=setInterval(initgame,175);
+        document.addEventListener("keydown",changeDirection);
+    }
+}
