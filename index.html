@@ -5,45 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Snake Game/ Game page</title>
+    <title>Snake Game/Home Page</title>
 </head>
 <body>
-    
     <div class="wrap">
-        <input type="text" id="myInput" onkeydown="startGame(event)">;
-        <div class="gamedetails">
-        <span class="score">Score=0</span>
-        <span class="time">Time left: 30s</span>
-        <span class="highestscore">Highest Score=0</span>
-        </div>
-
-        <div class="gameboard"></div>
-        <div class="controls">
-            <i data-key="ArrowLeft" class="fa-solid fa-arrow-left-long"></i>
-            <i data-key="ArrowRight" class="fa-solid fa-arrow-right-long"></i>
-            <i data-key="ArrowUp" class="fa-solid fa-arrow-up-long"></i>
-            <i data-key="ArrowDown" class="fa-solid fa-arrow-down-long"></i>
-        </div>
-        <div class="foodOrder">
-            <p class="sentence">Given food order:</p>
-            <div class="boxwrapper">
-               <!--<div class="Food1"></div>
-                <div class="Food2"></div>
-                <div class="Food3"></div>-->
-            </div>
-        </div>
-        <p class="round">Round:1</p>
-
-        <div class="lives">
-            <p class="Lives">LIVES:</p>
-            <div class="LIVES">
-                <p class="l1">&hearts;</p>
-                <p class="l2">&hearts;</p>
-                <p class="l3">&hearts;</p>
-            </div>
-        </div>  
-    </div>    
-</body>
-</html>
+    <div class="Game Details">
+        <p>WELCOME TO SEQUENCE SAFARI!!</p>
+        <p> ENTER THE GRID SIZE AND PRESS PLAY TO START PLAYING!!!</p>
+    </div>
+    <div class="user-inputs">
+       <!-- <label>GRID-SIZE: </label>
+        <input type="number" class="grid-size" height="30px">-->
+        <form class="formField">
+            <input type="number" class="grid-size" placeholder="Grid Size">
+        </form>
+    </div>
+    <div class="User Inputs">
+        <button class="button" id="play-btn">
+            <div class="button-overlay"></div>
+            <span>Play <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 52 58" height="50" width="50">
+          <path stroke-width="9" stroke="currentColor" d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z"></path>
+          </svg></span>
+            
+        </button>
+    </div>
+    </div>
+    <script>
+        var playBtn = document.getElementById('play-btn');
+        playBtn.addEventListener('click', function() {
+            const gridSizeInput = document.querySelector('.grid-size');
+                if (gridSizeInput!== null && gridSizeInput!== undefined) {
+                     // Redirect to the next page
+                    window.location.href = 'game.html'; 
+                } else {
+                    alert("Please enter a grid size");
+                }
+        });
+      </script>
+      </body>
+      </html>

@@ -11,8 +11,10 @@ const round=document.querySelector('.round');
 const l1=document.querySelector('.l1');
 const l2=document.querySelector('.l2');
 const l3=document.querySelector('.l3');
+var time;
 
 let gameover=false;
+let start=false;
 let foodX=[],foodY=[];
 let snakeX=5, snakeY=10;
 let snakeBody=[];
@@ -39,7 +41,6 @@ function arrangefoodposition(){
     foodX[i]=Math.floor(Math.random()*25)+1;
     foodY[i]=Math.floor(Math.random()*25)+1;
     } 
- 
 }
 
 function shuffle(color){
@@ -52,7 +53,7 @@ function shuffle(color){
 }
 
 function playEatSound() {
-    var eatSound = new Audio("discord-notification.mp3");
+    var eatSound = new Audio("media/discord-notification.mp3");
     eatSound.play();
 }
 
@@ -190,13 +191,18 @@ function myTimer() {
     timer.innerHTML=`Time left: ${timeleft}s`;
 }
 
-var time = setInterval(myTimer, 1000);
+document.addEventListener("keypress", function(e) {
+        if (!start) {
+            startGame();
+            start = true;
+        } else {
+            changeDirection(e);
+        }
+});
+function startGame(){
+    arrangefoodposition();
 
-function startGame(e){
-    if(e.keyCode===9){
-        e.preventDefault();
-        shuffle(); arrangefoodposition();
-        setIntervelId=setInterval(initgame,175);
-        document.addEventListener("keydown",changeDirection);
-    }
+    setIntervelId=setInterval(initgame,175);
+    time = setInterval(myTimer, 1000);
+    shuffle(); 
 }
