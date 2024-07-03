@@ -5,22 +5,40 @@
  font-family:'Gill Sans', 'Gill Sans MT', Calibri;
  }
 
+:root {
+    --grid-size: 25; /* default grid size */
+}
+
 body{
     display:flex;
+    padding-top: 10vmin;
     justify-content:center;
     align-items:center;
-    background: #292e47;
+    /*background: #292e47;*/
+    background:#1A202C ;
 }
 
 .wrap {
     width: 80vmin;
-    height: 75vmin;
+    height: 80vmin;
     border-radius: 5px;
-    background: #212a39;
+    background: #2D3748;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+.footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 40px;
 }
 
 .gamedetails {
     color: #aaaed4;
+    background-color: #2D3748;
     font-size:1.2rem;
     font-weight: 500;
     padding: 20px 27px;
@@ -30,11 +48,16 @@ body{
 
 
 .gameboard{
-    width:100%;
-    height:100%;
+    border: 3px solid #2F855A;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width:75%;
+    height:75%;
     display:grid;
-    grid-template: repeat(25,1fr)/repeat(25,1fr);
-    background:#101929
+    grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
+    /*background:#101929*/
+    background:#22543D;
+    border-radius: 0.5rem;
+    margin: 0 auto 1.5rem;
 }
 
 /*.gameboard .food1{
@@ -90,7 +113,7 @@ width: calc(100%/4);
 
 .foodOrder{
     width: 150px;
-    background-color:#292e47;
+    
 }
 
 .foodOrder .sentence{
@@ -127,9 +150,7 @@ background-color: #999;
     color: #aaaed4;
     font-size:1.2rem;
     font-weight: 500;
-    width:10px;
-    padding-top: 30px;
-    justify-content: center;   
+    width:10px;   
 }
 
 .lives{

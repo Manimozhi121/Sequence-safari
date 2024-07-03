@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="game.css">
+    <link rel="stylesheet" href="style/game.css">
     <script src="app.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Snake Game/ Game page</title>
 </head>
 <body>
     
-    <div class="wrap">
-        <input type="text" id="myInput" onkeydown="startGame(event)">;
+<div class="wrap">
         <div class="gamedetails">
         <span class="score">Score=0</span>
         <span class="time">Time left: 30s</span>
@@ -26,6 +25,8 @@
             <i data-key="ArrowUp" class="fa-solid fa-arrow-up-long"></i>
             <i data-key="ArrowDown" class="fa-solid fa-arrow-down-long"></i>
         </div>
+        
+    <div class="footer">
         <div class="foodOrder">
             <p class="sentence">Given food order:</p>
             <div class="boxwrapper">
@@ -43,7 +44,8 @@
                 <p class="l2">&hearts;</p>
                 <p class="l3">&hearts;</p>
             </div>
-        </div>  
-    </div>    
+        </div> 
+    </div> 
+</div>    
 </body>
 </html>

@@ -11,12 +11,14 @@ const round=document.querySelector('.round');
 const l1=document.querySelector('.l1');
 const l2=document.querySelector('.l2');
 const l3=document.querySelector('.l3');
+const gridSize = sessionStorage.getItem('gridSize')||25;
 var time;
 
 let gameover=false;
 let start=false;
 let foodX=[],foodY=[];
-let snakeX=5, snakeY=10;
+let snakeX=1, snakeY=1;
+//5,10
 let snakeBody=[];
 let velocityX=0, velocityY=0;
 let setIntervelId;
@@ -38,12 +40,12 @@ function playgameOverSound() {
 
 function arrangefoodposition(){
     for(let i=0;i<3;i++){     
-    foodX[i]=Math.floor(Math.random()*25)+1;
-    foodY[i]=Math.floor(Math.random()*25)+1;
+    foodX[i]=Math.floor(Math.random()*gridSize)+1;
+    foodY[i]=Math.floor(Math.random()*gridSize)+1;
     } 
 }
 
-function shuffle(color){
+function shuffle(){
     for(let i=color.length-1;i>0;i--){
        const j=Math.floor(Math.random()*(i+1));
        const temp=color[i].slice();
@@ -58,6 +60,7 @@ function playEatSound() {
 }
 
 const changeDirection= (e) => {
+    console.log(e.key);
     if(e.key === "ArrowUp" && velocityY!=1){
         velocityX=0;
         velocityY=-1;
@@ -79,7 +82,7 @@ const changeDirection= (e) => {
 
 controlElement.forEach(key => {
     //calling change direction on each click and passing key data set value as an object
-    addEventListener("click",()=>changeDirection({key:key.dataset.key}));
+    key.addEventListener("click",()=>changeDirection({key:key.dataset.key}));
 })
 
 function checkLives(){
@@ -93,13 +96,15 @@ function checkLives(){
 
 function handlelifeCompletion(){
     alert("One life over");
-    foodX=[],foodY=[]; snakeX=5, snakeY=10; snakeBody=[];
+    foodX=[],foodY=[]; 
+    snakeX=1, snakeY=1; snakeBody=[];
+    //5,10
     velocityX=0, velocityY=0;
     score=0; timeleft=30; f_n=0; r=1; _score=0;
     round.innerHTML=`Round:${r}`;
     scoreElement.innerText=`Score=${score}`;
     timer.innerHTML=`Time left: ${timeleft}s`;
-    shuffle(color); arrangefoodposition();
+    shuffle(); arrangefoodposition();
     initgame();
 }
   
@@ -109,7 +114,7 @@ function handlegameover(){
     //clears time and reloads the page-----------------------------------------
     clearInterval(setIntervelId);
     location.reload();
-    shuffle(color);
+    shuffle();
     startGame(e);
 }
 
@@ -117,7 +122,7 @@ function handleroundcompletion(){
    alert("Press ok to continue to next round");
    score+=10; _score=score; r++; timeleft=30; f_n=0;
    round.innerHTML=`Round:${r}`;
-   shuffle(color); arrangefoodposition();
+   shuffle(); arrangefoodposition();
 }
 
 function handleEat(){
@@ -175,7 +180,7 @@ for(let i=0;i<3;i++){
             checkLives();
         }
     }
-    if(snakeX < 0 || snakeX > 26 || snakeY < 0 || snakeY > 26){
+    if(snakeX < 0 || snakeX > gridSize+1 || snakeY < 0 || snakeY > gridSize+1){
        checkLives();
     }
 
@@ -191,17 +196,18 @@ function myTimer() {
     timer.innerHTML=`Time left: ${timeleft}s`;
 }
 
-document.addEventListener("keypress", function(e) {
-        if (!start) {
-            startGame();
-            start = true;
-        } else {
-            changeDirection(e);
-        }
+document.addEventListener("keydown", function(e) {
+    if (start) {
+        console.log(e.key);
+        changeDirection(e);
+      } else {
+        start = true;
+        startGame();
+      }
 });
 function startGame(){
     arrangefoodposition();
-
+    document.documentElement.style.setProperty('--grid-size', gridSize);
     setIntervelId=setInterval(initgame,175);
     time = setInterval(myTimer, 1000);
     shuffle(); 
